@@ -334,11 +334,10 @@ useEffect(() => {
           <Github size={16} />
         </a>
         <a
-  href={`mailto:${intro.email}?subject=${encodeURIComponent('Hello Tori')}`}
-  className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
-  aria-label="Email"
+  href={`mailto:${intro.email}?subject=${encodeURIComponent("Let's connect")}&body=${encodeURIComponent("Hi Tori,")}`}
+  className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition duration-300 hover:-translate-y-0.5"
 >
-  <Mail size={16} />
+  Email me <ArrowRight size={16} />
 </a>
       </div>
     </div>
@@ -578,8 +577,8 @@ useEffect(() => {
       </div>
 
       <div className="flex flex-col gap-3 lg:items-end">
-        <a
-  href={`mailto:${intro.email}?subject=${encodeURIComponent('Hello Tori')}`}
+      <a
+  href={`mailto:${intro.email}?subject=${encodeURIComponent("Let's connect")}&body=${encodeURIComponent("Hi Tori,")}`}
   className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition duration-300 hover:-translate-y-0.5"
 >
   Email me <ArrowRight size={16} />
