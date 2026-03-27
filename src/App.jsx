@@ -76,7 +76,7 @@ const intro = {
     'I build trusted data systems and modern analytics experiences for complex healthcare environments.',
   blurb:
     'Focused on platform modernization, governance, reporting, and scalable analytics enablement.',
-  email: '',
+  email: 'torihawkins.th@gmail.com',
   linkedin: 'https://www.linkedin.com/in/torihawkins/',
   github: 'https://github.com/gnugal314',
   resume: '/brief.pdf',
@@ -578,7 +578,7 @@ useEffect(() => {
 
        <div className="flex flex-col gap-3 lg:items-end">
               <a
-  href={`mailto:${intro.email}?subject=${encodeURIComponent("Let's connect")}`}
+  href={`mailto:${intro.email}?subject=${encodeURIComponent("Let's connect")}&body=${encodeURIComponent("Hi Tori,")}`}
   className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition duration-300 hover:-translate-y-0.5"
 >
   Email me <ArrowRight size={16} />
