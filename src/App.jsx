@@ -578,7 +578,7 @@ useEffect(() => {
 
       <div className="flex flex-col gap-3 lg:items-end">
       <a
-href="mailto:torihawkins.th@gmail.com"
+href="mailto:torihawkins.th@gmail.com?subject=Let's%20connect"
 className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
 aria-label="Email"
 >
