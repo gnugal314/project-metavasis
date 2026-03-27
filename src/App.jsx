@@ -282,20 +282,24 @@ useEffect(() => {
   <GlassCard className="relative w-full overflow-hidden px-5 py-5 sm:px-6 sm:py-6">
     <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.09),transparent_40%,rgba(255,255,255,0.03))]" />
     <div className="relative">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/35 sm:text-[12px]">
-            Key Competencies
-          </div>
-          <div className="mt-3 text-lg font-semibold tracking-tight text-white sm:text-xl">
-            {intro.title}
-          </div>
-        </div>
 
-        <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/50">
-          Open to impact
-        </div>
-      </div>
+      <div className="flex items-center justify-between gap-4">
+  <div>
+    <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/35 sm:text-[12px]">
+      Profile
+    </div>
+    <div className="mt-3 text-lg font-semibold tracking-tight text-white sm:text-xl">
+      {intro.title}
+    </div>
+  </div>
+
+  <a
+    href="#contact"
+    className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/50 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
+  >
+    Let’s Connect
+  </a>
+</div>
 
       <div className="mt-6 grid gap-3">
         {[
@@ -330,12 +334,12 @@ useEffect(() => {
           <Github size={16} />
         </a>
         <a
-          href={`mailto:${intro.email}`}
-          className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
-          aria-label="Email"
-        >
-          <Mail size={16} />
-        </a>
+  href={`mailto:${intro.email}?subject=${encodeURIComponent('Hello Tori')}`}
+  className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
+  aria-label="Email"
+>
+  <Mail size={16} />
+</a>
       </div>
     </div>
   </GlassCard>
@@ -575,11 +579,11 @@ useEffect(() => {
 
       <div className="flex flex-col gap-3 lg:items-end">
         <a
-          href={`mailto:${intro.email}`}
-          className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:-translate-y-0.5"
-        >
-          Email me <ArrowRight size={16} />
-        </a>
+  href={`mailto:${intro.email}?subject=${encodeURIComponent('Hello Tori')}`}
+  className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition duration-300 hover:-translate-y-0.5"
+>
+  Email me <ArrowRight size={16} />
+</a>
         <div className="text-sm text-white/45">{intro.email}</div>
       </div>
     </div>
