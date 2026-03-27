@@ -578,11 +578,11 @@ useEffect(() => {
 
        <div className="flex flex-col gap-3 lg:items-end">
               <a
-                href={`mailto:${intro.email}`}
-                className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition duration-300 hover:-translate-y-0.5"
-              >
-                Email me <ArrowRight size={16} />
-              </a>
+  href={`mailto:${intro.email}?subject=${encodeURIComponent("Let's connect")}`}
+  className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition duration-300 hover:-translate-y-0.5"
+>
+  Email me <ArrowRight size={16} />
+</a>
               <div className="text-sm text-white/45">{intro.email}</div>
             </div>
           </div>
