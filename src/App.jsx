@@ -576,20 +576,19 @@ useEffect(() => {
         </p>
       </div>
 
-      <div className="flex flex-col gap-3 lg:items-end">
-      <a
-href="mailto:torihawkins.th@gmail.com?subject=Let's%20connect"
-className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
-aria-label="Email"
->
-<Mail size={16} />
-</a>
-        <div className="text-sm text-white/45">{intro.email}</div>
-      </div>
-    </div>
-  </GlassCard>
-</section>
-      </main>
-    </div>
+       <div className="flex flex-col gap-3 lg:items-end">
+              <a
+                href={`mailto:${intro.email}`}
+                className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition duration-300 hover:-translate-y-0.5"
+              >
+                Email me <ArrowRight size={16} />
+              </a>
+              <div className="text-sm text-white/45">{intro.email}</div>
+            </div>
+          </div>
+        </GlassCard>
+      </section>
+            </main>
+          </div>
   );
 }
