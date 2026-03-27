@@ -335,10 +335,10 @@ useEffect(() => {
         </a>
         <a
   href={`mailto:${intro.email}?subject=${encodeURIComponent("Let's connect")}`}
-  className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-black transition duration-300 hover:-translate-y-0.5"
-  aria-label="Email me"
+  className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
+  aria-label="Email"
 >
-  <Mail size={18} />
+  <Mail size={16} />
 </a>
       </div>
     </div>
