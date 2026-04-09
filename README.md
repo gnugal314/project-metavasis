@@ -1,3 +1,10 @@
+# Welcome to Metavasis - Break the Barrier. Build Understanding.
+Metavasis is the transition from complexity to clarity.
+
+Inspired by Scientia — the Bearer of Knowledge, this platform exists to break down barriers around data, technology, and understanding.
+
+# From systems to insight. From data to decisions. From tech to tech-Knowledgy.
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
