@@ -1,7 +1,7 @@
 # Welcome to Metavasis - Break the Barrier. Build Understanding.
 Metavasis is the transition from complexity to clarity.
 
-![Scientia](./scientia-banner.png)
+<img src="./scientia-banner.png" width="80"/>
 Inspired by Scientia — the Bearer of Knowledge, this platform exists to break down barriers around data, technology, and understanding.
 
 From systems to insight. From data to decisions. From tech to tech-Knowledgy.
