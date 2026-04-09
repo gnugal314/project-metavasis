@@ -112,7 +112,7 @@ export const highlights = [
 // ===============================
 export const metrics = [
   { value: '15+ Years', label: 'Experience' },
-  { value: '100M+', label: 'Events' },
+  { value: '1M+', label: 'Events' },
   { value: '$1.3B+', label: 'Analytics Impact' },
   { value: 'Petabyte-scale', label: 'Healthcare Data Platforms' },
 ];
