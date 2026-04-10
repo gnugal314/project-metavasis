@@ -1,8 +1,10 @@
 # Welcome to Metavasis
 ### Break the Barrier. Build Understanding. 
-<img src="./scientia-banner.png" width="80"/> Inspired by Scientia — the Bearer of Knowledge, this platform exists to break down barriers around data, technology, and understanding.
+<img src="./scientia-banner.png" width="80"/> 
+Inspired by Scientia — the Bearer of Knowledge, this platform exists to break down barriers around data, technology, and understanding.
 
 Metavasis is the transition from complexity to clarity.
+
 - From systems to insight. 
 - From data to decisions. 
 - From tech to tech-Knowledgy.
