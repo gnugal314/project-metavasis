@@ -10,10 +10,6 @@ Metavasis is the transition from complexity to clarity.
 - From data to decisions. 
 - From tech to tech-Knowledgy.
 
-
-# React + Vite
-Personal portfolio built with React and deployed on Vercel, showcasing data engineering, analytics, and AI-driven solutions under the Metavasis framework.
-
 <!--
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
