@@ -11,8 +11,6 @@ import {
   BarChart3,
   ShieldCheck,
   Cpu,
-  Download,
-  ExternalLink,
   ChevronDown,
 } from 'lucide-react';
 
@@ -29,6 +27,7 @@ const navItems = [
   { label: 'Selected Work', href: '#projects' },
   { label: 'Career', href: '#experience' },
   { label: 'Connect', href: '#contact' },
+  
 ];
 
 function SectionLabel({ children }) {
@@ -71,38 +70,96 @@ export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('');
 
- const intro = {
+const intro = {
   name: 'Tori Hawkins',
   title: 'Data Engineering & Analytics',
-subtitle:
-  'I build trusted data systems and modern analytics experiences for complex healthcare environments.',
-blurb:
-  'Focused on platform modernization, governance, reporting, and scalable analytics enablement.',email: 'torihawkins.th@gmail.com',
+  subtitle:
+    'I build trusted data systems and modern analytics experiences for complex healthcare environments.',
+  blurb:
+    'Focused on platform modernization, governance, reporting, and scalable analytics enablement.',
+  email: 'torihawkins.th@gmail.com',
   linkedin: 'https://www.linkedin.com/in/torihawkins/',
   github: 'https://github.com/gnugal314',
   resume: '/brief.pdf',
 };
 
   // your JSX return continues below...
-  
+const handleNavClick = (e, id) => {
+  e.preventDefault();
+  setActive(id);
 
-  useEffect(() => {
-    const ids = navItems.map((item) => item.href.replace('#', ''));
-    const sections = ids.map((id) => document.getElementById(id)).filter(Boolean);
+  const section = document.getElementById(id);
+  if (!section) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target?.id) setActive(visible.target.id);
-      },
-      { threshold: [0.2, 0.35, 0.6] }
-    );
+  section.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start',
+  });
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
-  }, []);
+  window.history.replaceState(null, '', `#${id}`);
+};
+
+useEffect(() => {
+  const ids = navItems.map((item) => item.href.replace('#', ''));
+  const sections = ids
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+
+  const getActiveSection = () => {
+    const headerOffset = 110;
+
+    let currentId = ids[0] || '';
+    let smallestDistance = Number.POSITIVE_INFINITY;
+
+    sections.forEach((section) => {
+      const rect = section.getBoundingClientRect();
+      const topDistance = Math.abs(rect.top - headerOffset);
+      const isVisibleBand =
+        rect.top <= headerOffset + 80 && rect.bottom > headerOffset + 40;
+
+      if (isVisibleBand && topDistance < smallestDistance) {
+        smallestDistance = topDistance;
+        currentId = section.id;
+      }
+    });
+
+    if (!currentId && sections.length) {
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= headerOffset) {
+          currentId = section.id;
+        }
+      });
+    }
+
+    if (currentId) {
+      setActive((prev) => (prev !== currentId ? currentId : prev));
+    }
+  };
+
+  let ticking = false;
+
+  const onScroll = () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        getActiveSection();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  };
+
+  getActiveSection();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('hashchange', onScroll);
+
+  return () => {
+    window.removeEventListener('scroll', onScroll);
+    window.removeEventListener('resize', onScroll);
+    window.removeEventListener('hashchange', onScroll);
+  };
+}, []);
 
   return (
     <div className="min-h-screen bg-[#06070a] text-white selection:bg-white selection:text-black">
@@ -120,33 +177,34 @@ blurb:
             {intro.name}
           </a>
 
-          <nav className="hidden items-center gap-8 md:flex">
-            {navItems.map((item) => {
-              const id = item.href.replace('#', '');
-              const isActive = active === id;
+<nav className="hidden items-center gap-8 md:flex">
+  {navItems.map((item) => {
+    const id = item.href.replace('#', '');
+    const isActive = active === id;
 
-              return (
-                <div key={item.label} className="group">
-                  <a
-                    href={item.href}
-                    className={`relative text-sm transition duration-300 group-hover:-translate-y-[1px] ${
-                      isActive ? 'text-white' : 'text-white/55 hover:text-white/90'
-                    }`}
-                  >
-                    {item.label}
+    return (
+      <div key={item.label} className="group">
+        <a
+          href={item.href}
+          onClick={(e) => handleNavClick(e, id)}
+          className={`relative inline-block pb-3 text-sm transition duration-300 group-hover:-translate-y-[1px] ${
+            isActive ? 'text-white' : 'text-white/55 hover:text-white/90'
+          }`}
+        >
+          {item.label}
 
-                    <span
-                      className={`absolute left-1/2 top-full mt-2 h-[4px] w-[4px] -translate-x-1/2 rounded-full bg-white/60 transition-all duration-300 ${
-                        isActive
-                          ? 'opacity-100 scale-100'
-                          : 'opacity-0 scale-50 group-hover:opacity-70 group-hover:scale-100'
-                      }`}
-                    />
-                  </a>
-                </div>
-              );
-            })}
-          </nav>
+          <span
+            className={`absolute left-1/2 top-full h-[6px] w-[6px] -translate-x-1/2 rounded-full bg-[#3b82f6] transition-all duration-300 ${
+              isActive
+                ? 'opacity-100 scale-100'
+                : 'opacity-0 scale-75 group-hover:opacity-70 group-hover:scale-100'
+            }`}
+          />
+        </a>
+      </div>
+    );
+  })}
+</nav>
 
           <button
             onClick={() => setMenuOpen((v) => !v)}
@@ -195,7 +253,7 @@ blurb:
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="#projects"
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition duration-300 hover:scale-[1.03] hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-black transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:-translate-y-1 hover:border-white/20 hover:scale-[1.03] hover:-translate-y-0.5"
                 >
                   View projects <ArrowRight size={16} />
                 </a>
@@ -203,7 +261,7 @@ blurb:
                   href={intro.resume}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition duration-300 hover:-translate-y-0.5 hover:bg-white/10"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:-translate-y-1 hover:border-white/20 hover:-translate-y-0.5 hover:bg-white/10"
                 >
                   Candidate Brief
                 </a>
@@ -225,20 +283,24 @@ blurb:
   <GlassCard className="relative w-full overflow-hidden px-5 py-5 sm:px-6 sm:py-6">
     <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.09),transparent_40%,rgba(255,255,255,0.03))]" />
     <div className="relative">
-      <div className="flex items-center justify-between gap-4">
-        <div>
-          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/35 sm:text-[12px]">
-            Profile
-          </div>
-          <div className="mt-3 text-lg font-semibold tracking-tight text-white sm:text-xl">
-            {intro.title}
-          </div>
-        </div>
 
-        <div className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/50">
-          Open to impact
-        </div>
-      </div>
+      <div className="flex items-center justify-between gap-4">
+  <div>
+    <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/35 sm:text-[12px]">
+      Profile
+    </div>
+    <div className="mt-3 text-lg font-semibold tracking-tight text-white sm:text-xl">
+      {intro.title}
+    </div>
+  </div>
+
+  <a
+    href="#contact"
+    className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] text-white/50 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
+  >
+    Let’s Connect
+  </a>
+</div>
 
       <div className="mt-6 grid gap-3">
         {[
@@ -260,25 +322,25 @@ blurb:
       <div className="mt-6 flex flex-wrap gap-2">
         <a
           href={intro.linkedin}
-          className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
+          className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
           aria-label="LinkedIn"
         >
           <Linkedin size={16} />
         </a>
         <a
           href={intro.github}
-          className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
+          className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
           aria-label="GitHub"
         >
           <Github size={16} />
         </a>
         <a
-          href={`mailto:${intro.email}`}
-          className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
-          aria-label="Email"
-        >
-          <Mail size={16} />
-        </a>
+  href={`mailto:${intro.email}?subject=${encodeURIComponent("Let's connect")}`}
+  className="rounded-full border border-white/10 p-2.5 text-white/70 transition duration-300 hover:-translate-y-1 hover:border-white/20 hover:-translate-y-0.5 hover:bg-white/10 hover:text-white"
+  aria-label="Email"
+>
+  <Mail size={16} />
+</a>
       </div>
     </div>
   </GlassCard>
@@ -289,7 +351,7 @@ blurb:
           </a>
         </section>
 
-<section id="about" className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
+<section id="about" className="scroll-mt-24 mx-auto max-w-7xl px-6 py-16 lg:px-10">
   <SectionLabel>About</SectionLabel>
 
   <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
@@ -305,28 +367,24 @@ blurb:
       </p>
 
       <p className="mt-4 text-sm leading-7 text-white/50 sm:text-base">
-        My work spans enterprise data engineering, analytics modernization, fraud-focused reporting, and machine learning enablement — turning fragmented systems into reliable, decision-ready platforms.',
+         My work spans enterprise data engineering, analytics modernization, fraud-focused reporting, and machine learning enablement — turning fragmented systems into reliable, decision-ready platforms.
       </p>
     </div>
   </div>
 </section>
 
-<section id="expertise" className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
+  <section id="expertise" className="scroll-mt-24 mx-auto max-w-7xl px-6 py-20 lg:px-10">
   <SectionLabel>Expertise</SectionLabel>
 
-  <div className="mb-10 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-    <div>
-      <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-5xl">
-       Intelligence built from data.
-      </h2>
-    </div>
+  <div className="mb-10">
+  <h2 className="max-w-4xl text-3xl font-semibold tracking-tight text-white sm:text-5xl">
+    Intelligence built from data.
+  </h2>
 
-    <div>
-      <p className="text-sm leading-7 text-white/65 sm:text-base">
-        From raw ingestion to AI-ready systems — built for scale, designed for trust.
-        </p>
-    </div>
-  </div>
+  <p className="mt-4 max-w-3xl text-sm leading-7 text-white/60 sm:text-base">
+    From raw ingestion to GenAI retrieval — built to scale, designed for trust.
+  </p>
+</div>
 
   <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
     {expertise.map((item, index) => {
@@ -339,7 +397,7 @@ blurb:
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.45, delay: index * 0.06 }}
-          className="rounded-[24px] border border-white/10 bg-white/[0.04] px-5 py-5 backdrop-blur-xl shadow-2xl shadow-black/30 sm:px-6 sm:py-6"
+          className="rounded-[22px] border border-white/10 bg-white/[0.04] px-5 py-5 backdrop-blur-xl shadow-2xl shadow-black/30 sm:px-6 sm:py-6"
         >
           <div className="inline-flex rounded-2xl border border-white/10 bg-white/10 p-2.5 text-white/85">
             <Icon size={16} />
@@ -359,7 +417,7 @@ blurb:
 </section>
 
 
-<section id="projects" className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
+<section id="projects" className="scroll-mt-24 mx-auto max-w-7xl px-6 py-16 lg:px-10">
   <SectionLabel>Selected Work</SectionLabel>
 
   <div className="mb-10">
@@ -379,7 +437,7 @@ blurb:
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.45, delay: index * 0.06 }}
-        className="rounded-[24px] border border-white/10 bg-white/[0.04] px-5 py-5 backdrop-blur-xl shadow-2xl shadow-black/30 sm:px-6 sm:py-6"
+        className="rounded-[22px] border border-white/10 bg-white/[0.04] px-5 py-5 backdrop-blur-xl shadow-2xl shadow-black/30 sm:px-6 sm:py-6"
       >
         <div className="grid gap-4 lg:grid-cols-[48px_1fr_auto] lg:items-start">
           <div className="pt-1 text-sm font-semibold text-white/25">
@@ -404,7 +462,7 @@ blurb:
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] text-white/50"
+                    className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] text-white/50"
                   >
                     {tag}
                   </span>
@@ -441,16 +499,16 @@ blurb:
   </div>
 </section>
 
- <section id="experience" className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
+<section id="experience" className="scroll-mt-24 mx-auto max-w-7xl px-6 py-16 lg:px-10">
   <SectionLabel>Career</SectionLabel>
 
   <div className="mb-10">
     <h2 className="max-w-4xl text-3xl font-semibold tracking-tight text-white sm:text-5xl">
-      Experience
+      Experience shaping enterprise data and analytics systems.
     </h2>
     <p className="mt-4 max-w-3xl text-sm leading-7 text-white/60 sm:text-base">
-      Selected roles spanning healthcare analytics, governance, reporting modernization, and enterprise data engineering.
-</  p>
+      Selected roles spanning healthcare analytics, governance, and platform engineering.
+    </p>
   </div>
 
   <div className="space-y-6">
@@ -461,54 +519,53 @@ blurb:
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.45, delay: index * 0.06 }}
-        className="rounded-[24px] border border-white/10 bg-white/[0.04] px-5 py-5 backdrop-blur-xl shadow-2xl shadow-black/30 sm:px-6 sm:py-6"
+        className="rounded-[22px] border border-white/10 bg-white/[0.04] px-5 py-5 backdrop-blur-xl shadow-2xl shadow-black/30 sm:px-6 sm:py-6"
       >
-        <div className="grid gap-4 lg:grid-cols-[140px_1fr] lg:items-start">
-          <div className="text-xs font-medium uppercase tracking-[0.18em] text-white/30">
-            {item.period}
-          </div>
-
+        <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-start">
           <div>
-            <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#60a5fa] sm:text-[12px]">
+            <div className="text-sm font-semibold text-[#3b82f6] sm:text-base">
               {item.company}
             </div>
 
-            <h3 className="mt-3 text-lg font-semibold leading-tight tracking-tight text-white sm:text-xl">
+            <h3 className="mt-1 text-lg font-semibold leading-tight tracking-tight text-white sm:text-xl">
               {item.role}
             </h3>
+          </div>
 
-            <ul className="mt-4 space-y-2.5">
-              {item.highlights.map((point, i) => (
-                <li
-                  key={i}
-                  className="flex gap-3 text-sm leading-7 text-white/60 sm:text-base"
-                >
-                  <span className="mt-[6px] block w-2 shrink-0 text-[#60a5fa]">•</span>
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-
-            {item.tags && item.tags.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2">
-                {item.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1 text-[11px] text-white/50"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
+          <div className="text-xs text-white/35 sm:text-sm">
+            {item.period}
           </div>
         </div>
+
+        <ul className="mt-4 space-y-3">
+          {item.highlights.map((point, i) => (
+            <li key={i} className="flex gap-3">
+              <span className="mt-[6px] h-1.5 w-1.5 rounded-full bg-[#3b82f6]" />
+              <span className="text-sm leading-7 text-white/65 sm:text-base">
+                {point}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        {item.tags && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {item.tags.map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-[11px] text-white/50"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
       </motion.div>
     ))}
   </div>
 </section>
 
- <section id="contact" className="mx-auto max-w-7xl px-6 py-20 lg:px-10">
+<section id="contact" className="scroll-mt-24 mx-auto max-w-7xl px-6 py-16 lg:px-10">
   <GlassCard className="overflow-hidden px-5 py-6 sm:px-6 sm:py-8">
     <div className="grid gap-8 lg:grid-cols-[1fr_0.7fr] lg:items-end">
       <div>
@@ -521,19 +578,19 @@ blurb:
         </p>
       </div>
 
-      <div className="flex flex-col gap-3 lg:items-end">
-        <a
-          href={`mailto:${intro.email}`}
-          className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition duration-300 hover:-translate-y-0.5"
-        >
-          Email me <ArrowRight size={16} />
-        </a>
-        <div className="text-sm text-white/45">{intro.email}</div>
-      </div>
-    </div>
-  </GlassCard>
-</section>
-      </main>
-    </div>
+       <div className="flex flex-col gap-3 lg:items-end">
+              <a
+  href={`mailto:${intro.email}?subject=${encodeURIComponent("Let's connect")}&body=${encodeURIComponent("Hi Tori,")}`}
+  className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-black transition duration-300 hover:-translate-y-0.5"
+>
+  Email me <ArrowRight size={16} />
+</a>
+              <div className="text-sm text-white/45">{intro.email}</div>
+            </div>
+          </div>
+        </GlassCard>
+      </section>
+            </main>
+          </div>
   );
 }

@@ -23,10 +23,12 @@ import {
 
 const navItems = [
   { label: 'About', href: '#about' },
+  { label: 'Certifications', href: '#certifications' },
   { label: 'Expertise', href: '#expertise' },
   { label: 'Selected Work', href: '#projects' },
   { label: 'Career', href: '#experience' },
   { label: 'Connect', href: '#contact' },
+ 
 ];
 
 function SectionLabel({ children }) {
@@ -370,6 +372,33 @@ useEffect(() => {
       </p>
     </div>
   </div>
+</section>
+
+<section id="certifications" className="scroll-mt-24 mx-auto max-w-7xl px-6 py-16 lg:px-10">
+  <SectionLabel>Certifications</SectionLabel>
+
+  <GlassCard className="overflow-hidden px-5 py-6 sm:px-6 sm:py-8">
+    <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+      <div>
+        <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-5xl">
+          Cloud foundation for modern analytics and AI enablement.
+        </h2>
+
+        <p className="mt-4 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
+          AWS Certified Cloud Practitioner with foundational knowledge of cloud concepts,
+          AWS services, security, architecture, pricing, and cloud-enabled modernization.
+        </p>
+      </div>
+
+      <div className="flex justify-start md:justify-end">
+        <img
+          src="/aws-cloud-practitioner.png"
+          alt="AWS Certified Cloud Practitioner badge"
+          className="w-32 max-w-full rounded-2xl border border-white/10 bg-white/[0.03] p-3 shadow-2xl shadow-black/30 sm:w-40"
+        />
+      </div>
+    </div>
+  </GlassCard>
 </section>
 
   <section id="expertise" className="scroll-mt-24 mx-auto max-w-7xl px-6 py-20 lg:px-10">
