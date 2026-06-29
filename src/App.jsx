@@ -378,25 +378,57 @@ useEffect(() => {
   <SectionLabel>Certifications</SectionLabel>
 
   <GlassCard className="overflow-hidden px-5 py-6 sm:px-6 sm:py-8">
-    <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
-      <div>
-        <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-5xl">
-          Cloud foundation for modern analytics and AI enablement.
-        </h2>
+    <div className="mb-8">
+      <h2 className="max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-5xl">
+        Cloud foundation for modern analytics and AI enablement.
+      </h2>
 
-        <p className="mt-4 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
-          AWS Certified Cloud Practitioner with foundational knowledge of cloud concepts,
-          AWS services, security, architecture, pricing, and cloud-enabled modernization.
-        </p>
-      </div>
+      <p className="mt-4 max-w-2xl text-sm leading-7 text-white/60 sm:text-base">
+        Certifications that support cloud modernization, analytics engineering,
+        responsible AI adoption, and enterprise AI enablement.
+      </p>
+    </div>
 
-      <div className="flex justify-start md:justify-end">
-        <img
-          src="/aws-cloud-practitioner.png"
-          alt="AWS Certified Cloud Practitioner badge"
-          className="w-32 max-w-full rounded-2xl border border-white/10 bg-white/[0.03] p-3 shadow-2xl shadow-black/30 sm:w-40"
-        />
-      </div>
+    <div className="grid gap-5 md:grid-cols-2">
+      {[
+        {
+          name: 'AWS Certified Cloud Practitioner',
+          description:
+            'Foundational knowledge of cloud concepts, AWS services, security, architecture, pricing, and cloud-enabled modernization.',
+          image: '/aws-cloud-practitioner.png',
+          alt: 'AWS Certified Cloud Practitioner badge',
+        },
+        {
+          name: 'AWS Certified AI Practitioner',
+          description:
+            'Foundational knowledge of artificial intelligence, machine learning, generative AI, foundation models, responsible AI, and AWS AI services.',
+          image: '/aws-ai-practitioner.png',
+          alt: 'AWS Certified AI Practitioner badge',
+        },
+      ].map((cert) => (
+        <div
+          key={cert.name}
+          className="rounded-[22px] border border-white/10 bg-black/20 px-5 py-5 sm:px-6 sm:py-6"
+        >
+          <div className="grid gap-5 sm:grid-cols-[1fr_auto] sm:items-center">
+            <div>
+              <h3 className="text-lg font-semibold tracking-tight text-white sm:text-xl">
+                {cert.name}
+              </h3>
+
+              <p className="mt-3 text-sm leading-7 text-white/60">
+                {cert.description}
+              </p>
+            </div>
+
+            <img
+              src={cert.image}
+              alt={cert.alt}
+              className="w-28 max-w-full rounded-2xl border border-white/10 bg-white/[0.03] p-3 shadow-2xl shadow-black/30 sm:w-32"
+            />
+          </div>
+        </div>
+      ))}
     </div>
   </GlassCard>
 </section>
