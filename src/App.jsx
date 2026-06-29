@@ -402,7 +402,7 @@ useEffect(() => {
           name: 'AWS Certified AI Practitioner',
           description:
             'Foundational knowledge of artificial intelligence, machine learning, generative AI, foundation models, responsible AI, and AWS AI services.',
-          image: '/aws-ai-practitioner.png',
+          image: '/aws-certified-ai-practitioner.png',
           alt: 'AWS Certified AI Practitioner badge',
         },
       ].map((cert) => (
